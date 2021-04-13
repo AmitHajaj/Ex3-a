@@ -28,31 +28,31 @@ namespace ariel{
             void set_unit(string s);
 
             //Add two numbers.
-            NumberWithUnits operator+(const NumberWithUnits& aother) const;
+            NumberWithUnits operator+(const NumberWithUnits& aother)const;
             //Add to this.
             NumberWithUnits& operator+=(const NumberWithUnits& other);
             //Unary +. (Does nothing)
             NumberWithUnits& operator+();
 
             //Sub two numbers.
-            NumberWithUnits operator-(const NumberWithUnits& aother) const;
+            NumberWithUnits operator-(const NumberWithUnits& other) const;
             //Sub to this.
             NumberWithUnits& operator-=(const NumberWithUnits& other);
             //Unary -. (Change sign)
             NumberWithUnits& operator-();
 
             //LET.
-            friend bool& operator< (const NumberWithUnits& caller, const NumberWithUnits& other);
+            bool operator< (const NumberWithUnits &other);
             //LEQ.
-            friend bool& operator<= (const NumberWithUnits& caller, const NumberWithUnits& other);
+            bool operator<= (const NumberWithUnits &other);
             //Equals.
-            friend bool& operator== (const NumberWithUnits& caller, const NumberWithUnits& other);
+            bool operator== (const NumberWithUnits &other);
             //GEQ.
-            friend bool& operator>= (const NumberWithUnits& caller, const NumberWithUnits& other);
+            bool operator>= (const NumberWithUnits &other);
             //GET.
-            friend bool& operator> (const NumberWithUnits& caller, const NumberWithUnits& other);
+            bool operator> (const NumberWithUnits &other);
             //DIFF.
-            friend bool& operator!= (const NumberWithUnits& caller, const NumberWithUnits& other);
+            bool operator!= (const NumberWithUnits &other);
 
             //Pre-increment.
             const NumberWithUnits& operator++();
