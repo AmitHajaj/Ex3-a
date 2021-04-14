@@ -8,7 +8,7 @@ using namespace std;
 
 namespace ariel
 {
-    NumberWithUnits::NumberWithUnits(int number, string unit)
+    NumberWithUnits::NumberWithUnits(double number, string unit)
     {
         this->number = number;
         this->unit = unit;
@@ -70,34 +70,34 @@ namespace ariel
     }
 
     //LET.
-    bool NumberWithUnits::operator<(const NumberWithUnits &other)
+    const bool NumberWithUnits::operator<(const NumberWithUnits &other)
     {
-        return number < other.number;
+        return true;
     }
     //LEQ.
-    bool NumberWithUnits::operator<=(const NumberWithUnits &other)
+    const bool NumberWithUnits::operator<=(const NumberWithUnits &other)
     {
-        return number <= other.number;
+        return true;
     }
     //Equals.
-    bool NumberWithUnits::operator==(const NumberWithUnits &other)
+    const bool NumberWithUnits::operator==(const NumberWithUnits &other)
     {
-        return number == other.number;
+        return true;
     }
     //GEQ.
-    bool NumberWithUnits::operator>=(const NumberWithUnits &other)
+    const bool NumberWithUnits::operator>=(const NumberWithUnits &other)
     {
-        return number >= other.number;
+        return true;
     }
     //GET.
-    bool NumberWithUnits::operator>(const NumberWithUnits &other)
+    const bool NumberWithUnits::operator>(const NumberWithUnits &other)
     {
-        return number > other.number;
+        return true;
     }
     //DIFF.
-    bool NumberWithUnits::operator!=(const NumberWithUnits &other)
+    const bool NumberWithUnits::operator!=(const NumberWithUnits &other)
     {
-        return number != other.number;
+        return true;
     }
     //Pre-increment.
     const NumberWithUnits &NumberWithUnits::operator++()
@@ -128,14 +128,14 @@ namespace ariel
     }
 
     //Mult with double.
-    const NumberWithUnits NumberWithUnits::operator*(double &d)
+    const NumberWithUnits NumberWithUnits::operator*(double d)
     {
         this->number *= d;
         return *this;
     }
     const NumberWithUnits operator*(double d, NumberWithUnits &other)
     {
-        other.set_number(other.get_number() * d);
+        other.set_number(d*other.number);
         return other;
     }
 

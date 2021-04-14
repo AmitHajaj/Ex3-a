@@ -17,7 +17,7 @@ namespace ariel{
             map<string, string> table;
         
         public:
-            NumberWithUnits(int number, string unit);
+            NumberWithUnits(double number, string unit);
 
             static void read_units(ifstream& input);
             //Getters&Setters.
@@ -42,17 +42,17 @@ namespace ariel{
             NumberWithUnits& operator-();
 
             //LET.
-            bool operator< (const NumberWithUnits &other);
+            const bool operator< (const NumberWithUnits &other);
             //LEQ.
-            bool operator<= (const NumberWithUnits &other);
+            const bool operator<= (const NumberWithUnits &other);
             //Equals.
-            bool operator== (const NumberWithUnits &other);
+            const bool operator== (const NumberWithUnits &other);
             //GEQ.
-            bool operator>= (const NumberWithUnits &other);
+            const bool operator>= (const NumberWithUnits &other);
             //GET.
-            bool operator> (const NumberWithUnits &other);
+            const bool operator> (const NumberWithUnits &other);
             //DIFF.
-            bool operator!= (const NumberWithUnits &other);
+            const bool operator!= (const NumberWithUnits &other);
 
             //Pre-increment.
             const NumberWithUnits& operator++();
@@ -65,7 +65,7 @@ namespace ariel{
             const NumberWithUnits& operator--(int);
 
             //Mult with double.
-            const NumberWithUnits operator*(double& d);
+            const NumberWithUnits operator*(double d);
             friend const NumberWithUnits operator*(double d, NumberWithUnits& other);
 
             //Input-Output stream.
@@ -73,7 +73,6 @@ namespace ariel{
             friend istream& operator>> (istream& in, NumberWithUnits& other);
     };
 ostream& operator<< (ostream& os, const NumberWithUnits& other);
-istream& operator>> (istream& in, NumberWithUnits& other);
-}
+istream& operator>> (istream& in, NumberWithUnits& other);}
 
 #endif
