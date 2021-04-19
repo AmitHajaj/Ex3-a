@@ -90,8 +90,39 @@ TEST_CASE("Good case for (+)"){
 }
 
 TEST_CASE("Bad case for (+)"){
+    //To test bad cases we try to add differnet units.
+    ifstream units_file{"units.txt"};
+    NumberWithUnits::read_units(units_file);
+    ariel::NumberWithUnits am{1, "km"};
+    ariel::NumberWithUnits bm{1000, "m"};
+    ariel::NumberWithUnits cm{100, "cm"};
 
+    ariel::NumberWithUnits ag{1, "ton"};
+    ariel::NumberWithUnits bg{1000, "kg"};
+    ariel::NumberWithUnits cg{100, "g"};
+
+    ariel::NumberWithUnits at{1, "hour"};
+    ariel::NumberWithUnits bt{1000, "min"};
+    ariel::NumberWithUnits ct{100, "sec"};
+
+    ariel::NumberWithUnits ac{1, "USD"};
+    ariel::NumberWithUnits bc{1000, "ILS"};
+
+    ariel::NumberWithUnits groupByUnit[4][3] = {{am, bm, cm}, {ag, bg, cg}, {at, bt, ct}, {ac, bc, bc}};    
+
+    for(int i=0; i<4; i++){
+        for(int j=0; j<4; j++){
+            for(int k=0; k<4; k++){
+                for(int l=0; l<3; l++){
+                    if(k!=i){
+                        CHECK_THROWS(groupByUnit[i][j]+groupByUnit[k][l]);
+                    }
+                }
+            }
+        }
+    }
 }
+
 TEST_CASE("Good case for (+=)"){
 ifstream units_file{"units.txt"};
     NumberWithUnits::read_units(units_file);
@@ -124,7 +155,7 @@ ifstream units_file{"units.txt"};
     CHECK(c.get_number() == 100100);
     CHECK(c.get_unit() == "cm");
     c-=a;
-    //(+) for gram's.
+    //(+=) for gram's.
     a = ariel::NumberWithUnits {1, "ton"};
     b = ariel::NumberWithUnits {1000, "kg"};
     c = ariel::NumberWithUnits {1000, "g"};
@@ -152,7 +183,7 @@ ifstream units_file{"units.txt"};
     CHECK(c.get_number() == 1001000);
     CHECK(c.get_unit() == "g");
     c-=b;
-    //(+) for time.
+    //(+=) for time.
     a = ariel::NumberWithUnits{1, "hour"};
     b = ariel::NumberWithUnits{60, "min"};
     c= ariel::NumberWithUnits{360, "sec"};
@@ -180,7 +211,7 @@ ifstream units_file{"units.txt"};
     CHECK(c.get_number() == 3960);
     CHECK(c.get_unit() == "sec");
     c-=b;
-    //(+) for currency
+    //(+=) for currency
     a = ariel::NumberWithUnits{3.33, "ILS"};
     b = ariel::NumberWithUnits{1, "USD"};
     a+=b;
@@ -193,6 +224,37 @@ ifstream units_file{"units.txt"};
 }
 
 TEST_CASE("Bad case for (+=)"){
+    //To test bad cases we try to add differnet units.
+    ifstream units_file{"units.txt"};
+    NumberWithUnits::read_units(units_file);
+    ariel::NumberWithUnits am{1, "km"};
+    ariel::NumberWithUnits bm{1000, "m"};
+    ariel::NumberWithUnits cm{100, "cm"};
+
+    ariel::NumberWithUnits ag{1, "ton"};
+    ariel::NumberWithUnits bg{1000, "kg"};
+    ariel::NumberWithUnits cg{100, "g"};
+
+    ariel::NumberWithUnits at{1, "hour"};
+    ariel::NumberWithUnits bt{1000, "min"};
+    ariel::NumberWithUnits ct{100, "sec"};
+
+    ariel::NumberWithUnits ac{1, "USD"};
+    ariel::NumberWithUnits bc{1000, "ILS"};
+
+    ariel::NumberWithUnits groupByUnit[4][3] = {{am, bm, cm}, {ag, bg, cg}, {at, bt, ct}, {ac, bc, bc}};    
+
+    for(int i=0; i<4; i++){
+        for(int j=0; j<4; j++){
+            for(int k=0; k<4; k++){
+                for(int l=0; l<3; l++){
+                    if(k!=i){
+                        CHECK_THROWS(groupByUnit[i][j]+=groupByUnit[k][l]);
+                    }
+                }
+            }
+        }
+    }
 
 }
 TEST_CASE("Good case for (-)"){
@@ -202,7 +264,7 @@ TEST_CASE("Good case for (-)"){
     ariel::NumberWithUnits b{1000, "m"};
     ariel::NumberWithUnits c{100, "cm"};
 
-    //(+) for meteric units
+    //(-) for meteric units
     CHECK((a-b).get_number() == 0);
     CHECK((a-b).get_unit() == "km");
 
@@ -221,7 +283,7 @@ TEST_CASE("Good case for (-)"){
     CHECK((c-b).get_number() == -99900);
     CHECK((c-b).get_unit() == "cm");
 
-    //(+) for gram's.
+    //(-) for gram's.
     a = ariel::NumberWithUnits {1, "ton"};
     b = ariel::NumberWithUnits {1000, "kg"};
     c = ariel::NumberWithUnits {1000, "g"};
@@ -244,7 +306,7 @@ TEST_CASE("Good case for (-)"){
     CHECK((c-b).get_number() == -999999);
     CHECK((c-b).get_unit() == "g");
 
-    //(+) for time.
+    //(-) for time.
     a = ariel::NumberWithUnits{1, "hour"};
     b = ariel::NumberWithUnits{60, "min"};
     c= ariel::NumberWithUnits{360, "sec"};
@@ -267,7 +329,7 @@ TEST_CASE("Good case for (-)"){
     CHECK((c-b).get_number() == -3240);
     CHECK((c-b).get_unit() == "sec");
 
-    //(+) for currency
+    //(-) for currency
     a = ariel::NumberWithUnits{3.33, "ILS"};
     b = ariel::NumberWithUnits{1, "USD"};
 
@@ -279,7 +341,37 @@ TEST_CASE("Good case for (-)"){
 }
 
 TEST_CASE("Bad case for (-)"){
+    //To test bad cases we try to sub differnet units.
+    ifstream units_file{"units.txt"};
+    NumberWithUnits::read_units(units_file);
+    ariel::NumberWithUnits am{1, "km"};
+    ariel::NumberWithUnits bm{1000, "m"};
+    ariel::NumberWithUnits cm{100, "cm"};
 
+    ariel::NumberWithUnits ag{1, "ton"};
+    ariel::NumberWithUnits bg{1000, "kg"};
+    ariel::NumberWithUnits cg{100, "g"};
+
+    ariel::NumberWithUnits at{1, "hour"};
+    ariel::NumberWithUnits bt{1000, "min"};
+    ariel::NumberWithUnits ct{100, "sec"};
+
+    ariel::NumberWithUnits ac{1, "USD"};
+    ariel::NumberWithUnits bc{1000, "ILS"};
+
+    ariel::NumberWithUnits groupByUnit[4][3] = {{am, bm, cm}, {ag, bg, cg}, {at, bt, ct}, {ac, bc, bc}};    
+
+    for(int i=0; i<4; i++){
+        for(int j=0; j<4; j++){
+            for(int k=0; k<4; k++){
+                for(int l=0; l<3; l++){
+                    if(k!=i){
+                        CHECK_THROWS(groupByUnit[i][j]-groupByUnit[k][l]);
+                    }
+                }
+            }
+        }
+    }
 }
 TEST_CASE("Good case for (-=)"){
     ifstream units_file{"units.txt"};
@@ -288,7 +380,7 @@ TEST_CASE("Good case for (-=)"){
     ariel::NumberWithUnits b{1000, "m"};
     ariel::NumberWithUnits c{100, "cm"};
 
-    //(+) for meteric units
+    //(-=) for meteric units
     a-=b;
     CHECK(a.get_number() == 0);
     CHECK(a.get_unit() == "km");
@@ -313,7 +405,7 @@ TEST_CASE("Good case for (-=)"){
     CHECK(c.get_number() == -99900);
     CHECK(c.get_unit() == "cm");
     c+=b;
-    //(+) for gram's.
+    //(-=) for gram's.
     a = ariel::NumberWithUnits {1, "ton"};
     b = ariel::NumberWithUnits {1000, "kg"};
     c = ariel::NumberWithUnits {1000, "g"};
@@ -341,7 +433,7 @@ TEST_CASE("Good case for (-=)"){
     CHECK(c.get_number() == -999999);
     CHECK(c.get_unit() == "g");
     c+=b;
-    //(+) for time.
+    //(-=) for time.
     a = ariel::NumberWithUnits{1, "hour"};
     b = ariel::NumberWithUnits{60, "min"};
     c= ariel::NumberWithUnits{360, "sec"};
@@ -369,7 +461,7 @@ TEST_CASE("Good case for (-=)"){
     CHECK(c.get_number() == -3240);
     CHECK(c.get_unit() == "sec");
     c+=b;
-    //(+) for currency
+    //(-=) for currency
     a = ariel::NumberWithUnits{3.33, "ILS"};
     b = ariel::NumberWithUnits{1, "USD"};
     a-=b;
@@ -382,7 +474,37 @@ TEST_CASE("Good case for (-=)"){
 }
 
 TEST_CASE("Bad case for (-=)"){
+    //To test bad cases we try to add differnet units.
+    ifstream units_file{"units.txt"};
+    NumberWithUnits::read_units(units_file);
+    ariel::NumberWithUnits am{1, "km"};
+    ariel::NumberWithUnits bm{1000, "m"};
+    ariel::NumberWithUnits cm{100, "cm"};
 
+    ariel::NumberWithUnits ag{1, "ton"};
+    ariel::NumberWithUnits bg{1000, "kg"};
+    ariel::NumberWithUnits cg{100, "g"};
+
+    ariel::NumberWithUnits at{1, "hour"};
+    ariel::NumberWithUnits bt{1000, "min"};
+    ariel::NumberWithUnits ct{100, "sec"};
+
+    ariel::NumberWithUnits ac{1, "USD"};
+    ariel::NumberWithUnits bc{1000, "ILS"};
+
+    ariel::NumberWithUnits groupByUnit[4][3] = {{am, bm, cm}, {ag, bg, cg}, {at, bt, ct}, {ac, bc, bc}};    
+
+    for(int i=0; i<4; i++){
+        for(int j=0; j<4; j++){
+            for(int k=0; k<4; k++){
+                for(int l=0; l<3; l++){
+                    if(k!=i){
+                        CHECK_THROWS(groupByUnit[i][j]-=groupByUnit[k][l]);
+                    }
+                }
+            }
+        }
+    }
 }
 TEST_CASE("Good case for (-). Change sign"){
     ifstream units_file{"units.txt"};
@@ -445,7 +567,7 @@ TEST_CASE("Good case for (-). Change sign"){
 }
 
 TEST_CASE("Bad case for (-). Change sign"){
-
+// TODO: THING OF BAD CASES!
 }
 TEST_CASE("Good case for comparisons"){
     ifstream units_file{"units.txt"};
@@ -485,7 +607,43 @@ TEST_CASE("Good case for comparisons"){
 }
 
 TEST_CASE("Bad case for comparisons"){
+    //To test bad cases we try to add differnet units.
+    ifstream units_file{"units.txt"};
+    NumberWithUnits::read_units(units_file);
+    ariel::NumberWithUnits am{1, "km"};
+    ariel::NumberWithUnits bm{1000, "m"};
+    ariel::NumberWithUnits cm{100, "cm"};
 
+    ariel::NumberWithUnits ag{1, "ton"};
+    ariel::NumberWithUnits bg{1000, "kg"};
+    ariel::NumberWithUnits cg{100, "g"};
+
+    ariel::NumberWithUnits at{1, "hour"};
+    ariel::NumberWithUnits bt{1000, "min"};
+    ariel::NumberWithUnits ct{100, "sec"};
+
+    ariel::NumberWithUnits ac{1, "USD"};
+    ariel::NumberWithUnits bc{1000, "ILS"};
+
+    ariel::NumberWithUnits groupByUnit[4][3] = {{am, bm, cm}, {ag, bg, cg}, {at, bt, ct}, {ac, bc, bc}};
+    bool ans = false;
+
+    for(int i=0; i<4; i++){
+        for(int j=0; j<4; j++){
+            for(int k=0; k<4; k++){
+                for(int l=0; l<3; l++){
+                    if(k!=i){
+                        CHECK_THROWS(ans =groupByUnit[i][j]<groupByUnit[k][l]);
+                        CHECK_THROWS(ans = groupByUnit[i][j]<groupByUnit[k][l]);
+                        CHECK_THROWS(ans = groupByUnit[i][j]<groupByUnit[k][l]);
+                        CHECK_THROWS(ans =groupByUnit[i][j]<groupByUnit[k][l]);
+                        CHECK_THROWS(ans = groupByUnit[i][j]<groupByUnit[k][l]);
+                        CHECK_THROWS(ans = groupByUnit[i][j]<groupByUnit[k][l]);
+                    }
+                }
+            }
+        }
+    }
 }
 TEST_CASE("Good case for (++)"){
     ifstream units_file{"units.txt"};
@@ -535,7 +693,7 @@ TEST_CASE("Bad case for (++)"){
 TEST_CASE("Good case for (--)"){
     ifstream units_file{"units.txt"};
     NumberWithUnits::read_units(units_file);
-    //(++) for length.
+    //(--) for length.
     ariel::NumberWithUnits a{1, "km"};
     ariel::NumberWithUnits b{1000, "m"};
     ariel::NumberWithUnits c{100, "cm"};
@@ -545,7 +703,7 @@ TEST_CASE("Good case for (--)"){
     CHECK(b.get_number() == 999);
     CHECK(c.get_number() == 99);
 
-    //(++) for weight.
+    //(--) for weight.
     a = ariel::NumberWithUnits {1, "ton"};
     b = ariel::NumberWithUnits {1000, "kg"};
     c = ariel::NumberWithUnits {1000, "g"};
@@ -555,7 +713,7 @@ TEST_CASE("Good case for (--)"){
     CHECK(b.get_number() == 999);
     CHECK(c.get_number() == 99);
 
-    //(++) for time
+    //(--) for time
     a = ariel::NumberWithUnits{1, "hour"};
     b = ariel::NumberWithUnits{60, "min"};
     c= ariel::NumberWithUnits{60, "sec"};
@@ -565,7 +723,7 @@ TEST_CASE("Good case for (--)"){
     CHECK(b.get_number() == 59);
     CHECK(c.get_number() == 59);
 
-    //(++) for currency.
+    //(--) for currency.
     a = ariel::NumberWithUnits{3.33, "ILS"};
     b = ariel::NumberWithUnits{1, "USD"};
 
@@ -620,7 +778,32 @@ TEST_CASE("Good case for (*). left is number"){
 }
 
 TEST_CASE("Bad case for (*). left is number"){
+    //To test bad cases we try to add differnet units.
+    ifstream units_file{"units.txt"};
+    NumberWithUnits::read_units(units_file);
+    ariel::NumberWithUnits am{1, "km"};
+    ariel::NumberWithUnits bm{1000, "m"};
+    ariel::NumberWithUnits cm{100, "cm"};
 
+    ariel::NumberWithUnits ag{1, "ton"};
+    ariel::NumberWithUnits bg{1000, "kg"};
+    ariel::NumberWithUnits cg{100, "g"};
+
+    ariel::NumberWithUnits at{1, "hour"};
+    ariel::NumberWithUnits bt{1000, "min"};
+    ariel::NumberWithUnits ct{100, "sec"};
+
+    ariel::NumberWithUnits ac{1, "USD"};
+    ariel::NumberWithUnits bc{1000, "ILS"};
+
+    ariel::NumberWithUnits groupByUnit[4][3] = {{am, bm, cm}, {ag, bg, cg}, {at, bt, ct}, {ac, bc, bc}};    
+
+    for(int i=0; i<4; i++){
+        for(int j=0; j<3; j++){
+            CHECK_THROWS('3'*groupByUnit[i][j]);
+                        
+        }
+    }
 }
 TEST_CASE("Good case for (*). right is number"){
     ifstream units_file{"units.txt"};
@@ -665,5 +848,29 @@ TEST_CASE("Good case for (*). right is number"){
 }
 
 TEST_CASE("Bad case for (*). right is number"){
+    //To test bad cases we try to add differnet units.
+    ifstream units_file{"units.txt"};
+    NumberWithUnits::read_units(units_file);
+    ariel::NumberWithUnits am{1, "km"};
+    ariel::NumberWithUnits bm{1000, "m"};
+    ariel::NumberWithUnits cm{100, "cm"};
 
+    ariel::NumberWithUnits ag{1, "ton"};
+    ariel::NumberWithUnits bg{1000, "kg"};
+    ariel::NumberWithUnits cg{100, "g"};
+
+    ariel::NumberWithUnits at{1, "hour"};
+    ariel::NumberWithUnits bt{1000, "min"};
+    ariel::NumberWithUnits ct{100, "sec"};
+
+    ariel::NumberWithUnits ac{1, "USD"};
+    ariel::NumberWithUnits bc{1000, "ILS"};
+
+    ariel::NumberWithUnits groupByUnit[4][3] = {{am, bm, cm}, {ag, bg, cg}, {at, bt, ct}, {ac, bc, bc}};    
+
+    for(int i=0; i<4; i++){
+        for(int j=0; j<4; j++){
+            CHECK_THROWS(groupByUnit[i][j]*'3');             
+        }
+    }
 }

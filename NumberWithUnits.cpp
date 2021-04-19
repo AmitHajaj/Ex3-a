@@ -8,6 +8,21 @@ using namespace std;
 
 namespace ariel
 {
+
+    // Function to remove all spaces from a given string
+    void removeSpaces(string str)
+    {
+        // To keep track of non-space character count
+        size_t count = 0;
+    
+        // Traverse the given string. If current character
+        // is not space, then place it at index 'count++'
+        for (size_t i = 0; str[i]; i++)
+            if (str[i] != ' ')
+                str[count++] = str[i]; // here count is
+                                    // incremented
+        str[count] = '\0';
+    }
     NumberWithUnits::NumberWithUnits(double number, string unit)
     {
         this->number = number;
@@ -130,49 +145,57 @@ namespace ariel
     //Mult with double.
     const NumberWithUnits NumberWithUnits::operator*(double d)
     {
-        this->number *= d;
-        return *this;
+        NumberWithUnits temp{this->number*d, this->unit};
+        return temp;
     }
     const NumberWithUnits operator*(double d, NumberWithUnits &other)
     {
-        other.set_number(d*other.number);
-        return other;
+        NumberWithUnits temp{other.number*d, other.unit};
+        return temp;
     }
 
-    // //Input-Output stream.
+    //Input-Output stream.
     ostream &operator<<(ostream &os, const NumberWithUnits &other)
     {
         return (os << other.get_number() << "[" << other.get_unit() << "]");
     }
     istream &operator>>(istream &in, NumberWithUnits &other)
     {
+        // in >> other.unit;
+        return in;
         string num;
         double number;
         string unit;
 
         string input;
         in >> input;
+        removeSpaces(input);
+        size_t firstCut = input.find('[');
+        size_t secondCut =  input.find('[');
 
-        size_t i = 0;
-        //Iterate until the brackets to get the number.
-        while (input.at(i) != '[')
-        {
-            if (input.at(i) != ' ')
-            {
-                num += (input.at(i));
-            }
-            i++;
-        }
+        num = input.substr(0, firstCut);
+        unit = input.substr(firstCut+1, secondCut);
+
+        // size_t i = 0;
+        // //Iterate until the brackets to get the number.
+        // while (input.at(i) != '[')
+        // {
+        //     if (input.at(i) != ' ')
+        //     {
+        //         num += (input.at(i));
+        //     }
+        //     i++;
+        // }
         number = stod(num);
-        // Iterate untill the end of the brackets to get the unit.
-        while (input.at(i) != ']')
-        {
-            if (input.at(i) != ' ')
-            {
-                unit += input.at(i);
-            }
-            i++;
-        }
+        // // Iterate untill the end of the brackets to get the unit.
+        // while (input.at(i) != ']')
+        // {
+        //     if (input.at(i) != ' ')
+        //     {
+        //         unit += input.at(i);
+        //     }
+        //     i++;
+        // }
         // Assign our data to the object.
         other.set_number(number);
         other.set_unit(unit);
