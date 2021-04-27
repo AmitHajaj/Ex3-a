@@ -5,6 +5,7 @@
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
+#include <vector>
 #include<map>
 using namespace std;
 
@@ -14,7 +15,7 @@ namespace ariel{
         private:
             double number;
             std::string unit;
-            map<string, string> table;
+            static map<string, map<string, double>> table;
         
         public:
             NumberWithUnits(double number, string unit);
@@ -28,49 +29,54 @@ namespace ariel{
             void set_unit(string s);
 
             //Add two numbers.
-            NumberWithUnits operator+(const NumberWithUnits& aother)const;
+            NumberWithUnits operator+(const NumberWithUnits& aother);
             //Add to this.
             NumberWithUnits& operator+=(const NumberWithUnits& other);
             //Unary +. (Does nothing)
             NumberWithUnits& operator+();
 
             //Sub two numbers.
-            NumberWithUnits operator-(const NumberWithUnits& other) const;
+            NumberWithUnits operator-(const NumberWithUnits& other);
             //Sub to this.
             NumberWithUnits& operator-=(const NumberWithUnits& other);
             //Unary -. (Change sign)
             NumberWithUnits& operator-();
 
             //LET.
-            const bool operator< (const NumberWithUnits &other);
+            friend bool operator< (const NumberWithUnits &current, const NumberWithUnits &other);
             //LEQ.
-            const bool operator<= (const NumberWithUnits &other);
+            friend bool operator<= (const NumberWithUnits &current, const NumberWithUnits &other);
             //Equals.
-            const bool operator== (const NumberWithUnits &other);
+            friend bool operator== (const NumberWithUnits &current, const NumberWithUnits &other);
             //GEQ.
-            const bool operator>= (const NumberWithUnits &other);
+            friend bool operator>= (const NumberWithUnits &current, const NumberWithUnits &other);
             //GET.
-            const bool operator> (const NumberWithUnits &other);
+            friend bool operator> (const NumberWithUnits &current, const NumberWithUnits &other);
             //DIFF.
-            const bool operator!= (const NumberWithUnits &other);
+            friend bool operator!= (const NumberWithUnits &current, const NumberWithUnits &other);
 
             //Pre-increment.
-            const NumberWithUnits& operator++();
+            NumberWithUnits& operator++();
             //Post-increment.
             NumberWithUnits& operator++(int);
 
             //Pre-deccrement.
-            const NumberWithUnits& operator--();
+            NumberWithUnits& operator--();
             //Post-deccrement.
-            const NumberWithUnits& operator--(int);
+            NumberWithUnits& operator--(int);
 
             //Mult with double.
-            const NumberWithUnits operator*(double d);
-            friend const NumberWithUnits operator*(double d, NumberWithUnits& other);
+            NumberWithUnits operator*(double d);
+            friend NumberWithUnits operator*(double d, const NumberWithUnits& other);
 
             //Input-Output stream.
             friend ostream& operator<< (ostream& os, const NumberWithUnits& other);
             friend istream& operator>> (istream& in, NumberWithUnits& other);
+
+            static NumberWithUnits* helper(string s);
+            static pair< pair<string, pair<string, double>>, pair<string, pair<string, double>>> helper1(string s);
+            static double ifReachable (const NumberWithUnits &a, const NumberWithUnits &b, map<string, map<string, double>> table);
+            static double NumberWithUnits::ifReachable (string a, const string b, map<string, map<string, double>> table, set<string> s);
     };
 ostream& operator<< (ostream& os, const NumberWithUnits& other);
 istream& operator>> (istream& in, NumberWithUnits& other);}
